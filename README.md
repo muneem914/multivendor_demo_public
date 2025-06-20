@@ -25,7 +25,8 @@ This project is a multivendor eCommerce platform featuring role-based dashboards
 
 ---
 
-![Complete Folder Structure](https://photos.app.goo.gl/bCAS7yW3gVtUBDNY6)
+## Complete folder structure
+![Complete Folder Structure](https://raw.githubusercontent.com/muneem914/fourbtech_public/refs/heads/main/frontend/public/folder_structure.png)
 
 
 ## Features Implemented
