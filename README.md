@@ -134,6 +134,19 @@ I was planning to practice a multivendor ecommerce application using next.js, an
 - Frontend Live: https://fourbtech-frontend.vercel.app/
 - Backend Live: https://fourbtech-backend.vercel.app/
 
+### Credentials:
+**Role: customer:**
+email: muneem914@gmail.com, customer@gmail.com
+password: 123456
+
+**Role: Seller**
+email: seller@gmail.com, seler@gmail.com
+password: 123456
+
+**Role: Admin**
+email: admin@gmail.com
+password: 123456
+
 (Both frontend and backend code are available in the github link. Also added backend URL in the frontend code.)
 
 **Thank you for this opportunity. Looking forward to your feedback!**
