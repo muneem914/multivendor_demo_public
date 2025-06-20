@@ -20,7 +20,7 @@ This project is a multivendor eCommerce platform featuring role-based dashboards
 - **Framework**: Express.js
 - **Database**: MongoDB Atlas (cloud) / MongoDB (local for dev)
 - **Deployment**: Vercel with serverless functions
-- **Authentication**: JWT with HTTP-only cookies
+- **Authentication**: JWT with HTTP-only cookies, hashed password
 - **Middleware**: Custom error handling, async wrapper
 
 ---
@@ -135,15 +135,16 @@ I was planning to practice a multivendor ecommerce application using next.js, an
 - Backend Live: https://fourbtech-backend.vercel.app/
 
 ### Credentials:
-**Role: customer:**
+
+**Role: customer:**\
 email: muneem914@gmail.com, customer@gmail.com
 password: 123456
 
-**Role: Seller**
+**Role: Seller**\
 email: seller@gmail.com, seler@gmail.com
 password: 123456
 
-**Role: Admin**
+**Role: Admin**\
 email: admin@gmail.com
 password: 123456
 
