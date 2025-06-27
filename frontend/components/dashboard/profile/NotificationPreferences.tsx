@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateNotificationPreferencesMutation } from "@/lib/redux/api/authApi";
+import { useUpdateNotificationPreferencesMutation } from "@/lib/redux/api/userApi";
 import { useAppSelector } from "@/lib/redux/hooks";
 import React, { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ const NotificationPreferences = () => {
   const { user } = useAppSelector((state) => state.auth);
   // console.log(user);
   const notificationData = user?.notificationPreferences;
-  
+
   const [updateNotificationPreferences, { isLoading, isError, isSuccess }] =
     useUpdateNotificationPreferencesMutation();
 

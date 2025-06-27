@@ -10,11 +10,12 @@ interface NotificationPreferences {
 }
 
 interface Address {
+  _id?: mongoose.Types.ObjectId;
   label: string;
   street: string;
   city: string;
   state: string;
-  postalCode: string;
+  postalCode: number;
   country: string;
   isDefault?: boolean;
 }
@@ -53,10 +54,10 @@ const addressSchema = new Schema<Address>({
   street: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String },
-  postalCode: { type: String },
+  postalCode: { type: Number },
   country: { type: String, required: true },
   isDefault: { type: Boolean, default: false },
-}, { _id: false });
+});
 
 const shopSchema = new Schema<Shop>({
   name: { type: String, required: true },

@@ -1,4 +1,5 @@
 export interface Address {
+  _id: string;
   label: string;
   street: string;
   city: string;
@@ -27,7 +28,7 @@ export interface Shop {
 export type Role = "customer" | "seller" | "admin";
 
 export interface IUser {
-  id: string;
+  _id: string;
   fName: string;
   lName: string;
   phone: number;

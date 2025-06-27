@@ -63,7 +63,7 @@ export default function Navbar({
   const router = useRouter();
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
+      await logout(undefined).unwrap();
       dispatch(setUser(null));
       router.push("/");
       toast.success("Logout successful");
@@ -74,7 +74,7 @@ export default function Navbar({
 
   const sellerHandler = async () => {
     try {
-      await logout().unwrap();
+      await logout(undefined).unwrap();
       dispatch(setUser(null));
       router.push("/register/seller");
     } catch (error) {

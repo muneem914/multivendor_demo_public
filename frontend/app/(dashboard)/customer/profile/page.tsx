@@ -1,10 +1,11 @@
 "use client";
+import AddAddress from "@/components/dashboard/profile/AddAddress";
 import Address from "@/components/dashboard/profile/Address";
 import NotificationPreferences from "@/components/dashboard/profile/NotificationPreferences";
 import PasswordChanger from "@/components/dashboard/profile/PasswordChanger";
 import ProfileInformation from "@/components/dashboard/profile/ProfileInformation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, Plus } from "lucide-react";
+import { Download } from "lucide-react";
 
 export default function CustomerProfilePage() {
   return (
@@ -51,13 +52,7 @@ export default function CustomerProfilePage() {
                 </p>
               </div>
               <div className=" order-1 sm:order-2">
-                <button
-                  disabled
-                  title="currently not available"
-                  className="disabled:bg-gray-300 disabled:cursor-not-allowed rounded px-3 py-2 flex gap-3 bg-red-500 cursor-pointer text-white"
-                >
-                  <Plus /> Add Address
-                </button>
+                <AddAddress/>
               </div>
             </div>
 

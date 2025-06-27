@@ -26,7 +26,7 @@ export default function SellerRegisterPage() {
   });
   const { user } = useAppSelector((state) => state.auth);
 
-  const [register, { isLoading, isError, isSuccess }] = useRegisterMutation();
+  const [register, { isLoading, error, isSuccess }] = useRegisterMutation();
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -34,16 +34,26 @@ export default function SellerRegisterPage() {
     if (user) {
       router.push("/seller");
     }
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
-    if (isError) {
-      toast.error("authentication error");
+    if (error) {
+      const errorMessage =
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+          ? (error.data as { message: string }).message
+          : "message" in error
+          ? error.message || "Registration failed"
+          : "Registration failed";
+
+      toast.error(errorMessage);
     }
     if (isSuccess) {
       toast.success("Wait for ADMIN approval");
     }
-  }, [isError, isSuccess]);
+  }, [error, isSuccess]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

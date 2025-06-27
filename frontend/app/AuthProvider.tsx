@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useGetProfileQuery } from "../lib/redux/api/authApi";
+import { useGetProfileQuery } from "../lib/redux/api/userApi";
 import { clearUser, setLoading, setUser } from "../lib/redux/slices/authSlice";
 
 interface AuthProviderProps {

@@ -257,3 +257,294 @@ export const updateUserPassword = catchAsyncErrors(async (req: AuthRequest, res:
     message: "Password updated successfully",
   });
 });
+
+
+
+// route /address/new
+export const addNewAddress = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) return next(new ErrorHandler("Not authenticated", 401));
+
+  const newAddress = req.body;
+
+  if (!newAddress || !newAddress.label || !newAddress.street || !newAddress.city || !newAddress.state || !newAddress.postalCode || !newAddress.country) {
+    return next(new ErrorHandler("All fields are required", 400));
+  }
+
+  if (newAddress.isDefault === true) {
+    await User.findByIdAndUpdate(
+      { _id: req.user.id },
+      { $set: { "addresses.$[].isDefault": false } }
+    );
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    { $push: { addresses: newAddress } },
+    { new: true, runValidators: true }
+  )
+
+  if (!updatedUser) {
+    return next(new ErrorHandler("User not found", 404))
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Address added successfully",
+    addresses: updatedUser.addresses
+  })
+})
+
+
+
+// route - api/address/update/:id
+
+export const updateAddress = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) return next(new ErrorHandler("Not authenticated", 404))
+
+  const { id } = req.params;
+  const updatedAddress = req.body;
+
+  if (!updatedAddress || !updatedAddress.label || !updatedAddress.street || !updatedAddress.city || !updatedAddress.state || !updatedAddress.postalCode || !updatedAddress.country) {
+    return next(new ErrorHandler("All fields are required", 400));
+  }
+
+  if (updatedAddress.isDefault === true) {
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: { "addresses.$[].isDefault": false } }
+    )
+  }
+
+  const updateUserAddress = await User.findOneAndUpdate(
+    {
+      _id: req.user.id,
+      "addresses._id": id
+    },
+    {
+      $set: {
+        "addresses.$.label": updatedAddress.label,
+        "addresses.$.street": updatedAddress.street,
+        "addresses.$.city": updatedAddress.city,
+        "addresses.$.state": updatedAddress.state,
+        "addresses.$.postalCode": updatedAddress.postalCode,
+        "addresses.$.country": updatedAddress.country,
+        "addresses.$.isDefault": updatedAddress.isDefault || false
+      },
+    },
+    { new: true, runValidators: true }
+  )
+
+  if (!updateUserAddress) return next(new ErrorHandler("user or address not found", 404))
+
+  const hasDefaultAddress = updateUserAddress.addresses?.some(address => address.isDefault === true);
+
+  if (!hasDefaultAddress && updateUserAddress.addresses && updateUserAddress.addresses.length > 0) {
+    const finalUpdatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: { "addresses.0.isDefault": true } },
+      { new: true }
+    )
+
+    return res.status(200).json({
+      success: true,
+      message: "Address updated successfully, first address set as default",
+      addresses: finalUpdatedUser?.addresses
+    })
+  }
+
+  res.status(200).json({
+    success: true,
+    message: 'address updated successfully',
+    addresses: updateUserAddress.addresses
+  })
+})
+
+
+
+
+
+// route - api/address/delete/:id
+
+export const deleteAddress = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) return next(new ErrorHandler("Not authenticated", 404))
+
+  const { id } = req.params;
+
+  const user = await User.findById(req.user.id);
+  if (!user || !user.addresses || user.addresses.length === 0) {
+    return next(new ErrorHandler("User not found", 404))
+  }
+
+  const addressToDelete = user.addresses.find(address => address._id?.toString() === id)
+  if (!addressToDelete) return next(new ErrorHandler("address not found", 404))
+
+  const isDefaultAddress = addressToDelete.isDefault;
+
+  const updateUser = await User.findByIdAndUpdate(
+    req.user.id,
+    { $pull: { addresses: { _id: id } } },
+    { new: true }
+  )
+
+  if (!updateUser) return next(new ErrorHandler("failed to delete address", 500))
+
+  if (isDefaultAddress && updateUser.addresses && updateUser.addresses.length > 0) {
+    const finalUpdateUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: { "addresses.0.isDefault": true } },
+      { new: true }
+    )
+
+    return res.status(200).json({
+      success: true,
+      message: "Address deleted and first address set as default",
+      addresses: finalUpdateUser?.addresses
+    })
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "address deleted successfully",
+    addresses: updateUser.addresses
+  })
+
+})
+
+
+
+// route - api/address/default/:id
+export const setDefaultAddress = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) return next(new ErrorHandler("user not found", 404))
+
+  const { id } = req.params;
+
+  await User.findByIdAndUpdate(
+    req.user.id,
+    { $set: { "addresses.$[].isDefault": false } },
+  )
+
+  const updatedUser = await User.findOneAndUpdate(
+    {
+      _id: req.user.id,
+      "addresses._id": id
+    },
+    { $set: { "addresses.$.isDefault": true } },
+    { new: true }
+  )
+
+  if (!updatedUser) return next(new ErrorHandler("user or address not found", 404))
+
+  res.status(200).json({
+    success: true,
+    message: "default address updated successfully",
+    addresses: updatedUser.addresses
+  })
+})
+
+
+
+// route api/admin/sellers/:id/verify
+export const verifySeller = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== 'admin') return next(new ErrorHandler("Only admin can access to this route", 403))
+
+  const { id } = req.params;
+
+  const seller = await User.findById(id);
+
+  if (!seller) return next(new ErrorHandler("seller not found", 404))
+  if (seller.role !== 'seller') return next(new ErrorHandler("user is not a seller", 400))
+  if (!seller.shop) return next(new ErrorHandler("seller has no shop profile", 400))
+
+  const updateSeller = await User.findByIdAndUpdate(
+    id,
+    { $set: { 'shop.isVerified': true } },
+    { new: true, runValidators: true }
+  ).select('-password')
+
+  res.status(200).json({
+    success: true,
+    message: "seller verified successfully",
+    seller: updateSeller
+  })
+
+})
+
+// route api/admin/sellers/:id/invalidate
+export const invalidateSeller = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== 'admin') return next(new ErrorHandler("Only admin can access to this route", 403))
+
+  const { id } = req.params;
+
+  const seller = await User.findById(id);
+
+  if (!seller) return next(new ErrorHandler("seller not found", 404))
+  if (seller.role !== 'seller') return next(new ErrorHandler("user is not a seller", 400))
+  if (!seller.shop) return next(new ErrorHandler("seller has no shop profile", 400))
+
+  const updateSeller = await User.findByIdAndUpdate(
+    id,
+    { $set: { 'shop.isVerified': false } },
+    { new: true, runValidators: true }
+  ).select('-password')
+
+  res.status(200).json({
+    success: true,
+    message: "seller unverified successfully",
+    seller: updateSeller
+  })
+
+})
+
+// route api/admin/sellers/:id
+export const getSellerById = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== "admin") return next(new ErrorHandler("Only admin can access to this route", 403))
+
+  const { id } = req.params;
+
+  const seller = await User.findOne({
+    _id: id,
+    role: 'seller'
+  }).select("-password")
+
+  if (!seller) return next(new ErrorHandler("seller not found by Id", 404))
+
+  res.status(200).json({
+    success: true,
+    seller
+  })
+})
+// route api/admin/customers/:id
+export const getCustomerById = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== "admin") return next(new ErrorHandler("Only admin can access to this route", 403))
+
+  const { id } = req.params;
+
+  const customer = await User.findOne({
+    _id: id,
+    role: 'customer'
+  }).select("-password")
+
+  if (!customer) return next(new ErrorHandler("customer not found by Id", 404))
+
+  res.status(200).json({
+    success: true,
+    customer
+  })
+})
+
+// route api/admin/delete/:id
+export const deleteUserById = catchAsyncErrors(async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== "admin") return next(new ErrorHandler("Only admin can access to this route", 403))
+
+  const { id } = req.params;
+
+  const user = await User.findById(id);
+  if (!user) return next(new ErrorHandler("User not found with provided ID", 404))
+
+  await user.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "user deleted successfully"
+  })
+})

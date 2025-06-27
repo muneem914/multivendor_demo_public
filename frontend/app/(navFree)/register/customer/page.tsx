@@ -38,7 +38,7 @@ export default function CustomerRegisterPage() {
 
   const { user } = useAppSelector((state) => state.auth);
 
-  const [register, { isLoading, isError, isSuccess }] = useRegisterMutation();
+  const [register, { isLoading, isSuccess, error }] = useRegisterMutation();
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -46,16 +46,26 @@ export default function CustomerRegisterPage() {
     if (user) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
-    if (isError) {
-      toast.error("authentication error");
+    if (error) {
+      const errorMessage =
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+          ? (error.data as { message: string }).message
+          : "message" in error
+          ? error.message || "Registration failed"
+          : "Registration failed";
+
+      toast.error(errorMessage);
     }
     if (isSuccess) {
       toast.success("Customer data saved");
     }
-  }, [isError, isSuccess]);
+  }, [isSuccess, error]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

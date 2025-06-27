@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { userApi } from './userApi';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -6,7 +7,6 @@ export const authApi = createApi({
     baseUrl: 'http://localhost:5000/api',
     credentials: 'include',
   }),
-  tagTypes: ["User"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (data) => ({
@@ -17,7 +17,7 @@ export const authApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(authApi.endpoints.getProfile.initiate(null));
+          await dispatch(userApi.endpoints.getProfile.initiate(null));
         } catch (error) {
           console.log(error);
         }
@@ -29,16 +29,14 @@ export const authApi = createApi({
         method: 'POST',
         body: data,
       }),
-    }),
-    getAllSellers: builder.query({
-      query: () => '/sellers',
-    }),
-    getAllCustomers: builder.query({
-      query: () => '/customers',
-    }),
-    getProfile: builder.query({
-      query: () => '/me',
-      providesTags: ["User"],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(userApi.endpoints.getProfile.initiate(null));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     logout: builder.mutation({
       query: () => ({
@@ -46,42 +44,12 @@ export const authApi = createApi({
         method: 'POST',
       }),
     }),
-    updateUserProfile: builder.mutation({
-      query: (updatedData) => ({
-        url: '/me/update-profile',
-        method: "PUT",
-        body: updatedData,
-        credentials: "include"
-      }),
-      invalidatesTags: ["User"],
-    }),
-    updateUserPassword: builder.mutation({
-      query: (updatedData) => ({
-        url: '/me/update-password',
-        method: "PUT",
-        body: updatedData
-      })
-    }),
-    updateNotificationPreferences: builder.mutation({
-      query: (notificationData) => ({
-        url: '/me/update-notification',
-        method: 'PUT',
-        body: notificationData,
-        credentials: "include"
-      }),
-      invalidatesTags: ["User"],
-    })
+    
   }),
 });
 
 export const {
   useRegisterMutation,
   useLoginMutation,
-  useGetAllCustomersQuery,
-  useGetAllSellersQuery,
-  useGetProfileQuery,
   useLogoutMutation,
-  useUpdateUserProfileMutation,
-  useUpdateUserPasswordMutation,
-  useUpdateNotificationPreferencesMutation
 } = authApi;

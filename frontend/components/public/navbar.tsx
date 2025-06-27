@@ -50,7 +50,7 @@ export default function Navbar() {
   const router = useRouter();
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
+      await logout(undefined).unwrap();
       dispatch(setUser(null));
       router.push("/");
     } catch (error) {
@@ -59,7 +59,7 @@ export default function Navbar() {
   };
   const sellerHandler = async () => {
     try {
-      await logout().unwrap();
+      await logout(undefined).unwrap();
       dispatch(setUser(null));
       router.push("/register/seller");
     } catch (error) {
@@ -188,7 +188,7 @@ export default function Navbar() {
                             Dashboard
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="block cursor-pointer">
+                        <DropdownMenuItem className="block sm:hidden cursor-pointer">
                           <div className="block sm:hidden">
                             {!user ? (
                               <Link
@@ -220,7 +220,7 @@ export default function Navbar() {
                             Register
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="block cursor-pointer">
+                        <DropdownMenuItem className="block sm:hidden cursor-pointer">
                           <div className="block sm:hidden">
                             {!user ? (
                               <Link

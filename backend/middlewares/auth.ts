@@ -33,7 +33,7 @@ export const requireAuth = (
   }
 
   if (!token) {
-    return next(new ErrorHandler('No token provided', 401));
+    return next(new ErrorHandler('No token provided. Log in first', 401));
   }
 
   try {

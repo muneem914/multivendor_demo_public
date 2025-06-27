@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
-  const [login, { isSuccess, isError, isLoading }] = useLoginMutation();
+  const [login, { isSuccess, isLoading, error }] = useLoginMutation();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -47,10 +47,20 @@ export default function LoginPage() {
     if (isSuccess) {
       toast.success("Login Successful");
     }
-    if (isError) {
-      toast.error("Invalid Credentials");
+    if (error) {
+      const errorMessage =
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+          ? (error.data as { message: string }).message
+          : "message" in error
+          ? error.message || "Login failed"
+          : "Login failed";
+
+      toast.error(errorMessage);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, error]);
 
   if (!checkingAuth) return <Loader />;
 

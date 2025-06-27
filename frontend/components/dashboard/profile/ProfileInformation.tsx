@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateUserProfileMutation } from "@/lib/redux/api/authApi";
+import { useUpdateUserProfileMutation } from "@/lib/redux/api/userApi";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";

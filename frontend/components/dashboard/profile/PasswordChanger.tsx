@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateUserPasswordMutation } from "@/lib/redux/api/authApi";
+import { useUpdateUserPasswordMutation } from "@/lib/redux/api/userApi";
 import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
