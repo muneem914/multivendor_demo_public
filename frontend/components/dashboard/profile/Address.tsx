@@ -23,7 +23,7 @@ const Address = () => {
   const [selectedAddress, setSelectedAddress] =
     useState<AddressInterface | null>(null);
 
-  const isDefault = true;
+  // const isDefault = true;
   const [
     deleteAddress,
     { isSuccess: isDeleteSuccess, isError: isDeleteError },
@@ -54,8 +54,8 @@ const Address = () => {
   };
   const handleDefault = async (id: string | undefined) => {
     await setDefaultAddress({
-      id: id,
-      data: isDefault,
+      id,
+      data: { isDefault: true },
     });
     setDefaultOpen(false);
   };

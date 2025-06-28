@@ -123,7 +123,7 @@ export default function Navbar({
               </div>
 
               <div className="flex items-center gap-5 sm:gap-7 md:gap-10">
-                <div className="block sm:hidden">
+                <div className="hidden sm:block">
                   {!user ? (
                     <Link href="/register/seller" className="text-red-500">
                       Become a Seller!
@@ -224,11 +224,32 @@ export default function Navbar({
                     )}
                     {user && <DropdownMenuSeparator />}
                     {user ? (
-                      <DropdownMenuItem className="block cursor-pointer">
-                        <Link href={`/${user?.role}/`} className="block">
-                          Dashboard
-                        </Link>
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem className="block cursor-pointer">
+                          <Link href={`/${user?.role}/`} className="block">
+                            Dashboard
+                          </Link>
+                        </DropdownMenuItem>
+                        {(!user || user?.role === "customer") && (
+                          <DropdownMenuItem className="block sm:hidden cursor-pointer">
+                            {!user ? (
+                              <Link
+                                href="/register/seller"
+                                className="text-red-500"
+                              >
+                                Become a Seller!
+                              </Link>
+                            ) : (
+                              <button
+                                onClick={sellerHandler}
+                                className="text-red-500 cursor-pointer"
+                              >
+                                Become a Seller!
+                              </button>
+                            )}
+                          </DropdownMenuItem>
+                        )}
+                      </>
                     ) : (
                       <>
                         <DropdownMenuItem className="block cursor-pointer">
@@ -241,7 +262,7 @@ export default function Navbar({
                             Register
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="block cursor-pointer">
+                        <DropdownMenuItem className="hidden sm:block cursor-pointer">
                           <div className="hidden sm:block">
                             {!user ? (
                               <Link
@@ -264,8 +285,8 @@ export default function Navbar({
                     )}
 
                     {user && (
-                      <DropdownMenuItem className="block cursor-pointer">
-                        <button onClick={logoutHandler}>Logout</button>
+                      <DropdownMenuItem  onClick={logoutHandler} className="block cursor-pointer">
+                        Logout
                       </DropdownMenuItem>
                     )}
                   </DropdownMenuContent>

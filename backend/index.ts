@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.route"
 
 import dotenv from 'dotenv';
 import { errorMiddleware } from "./middlewares/errorMiddleware";
+import { dbConnect } from "./lib/dbConnect";
 
 dotenv.config();
 
@@ -32,11 +33,12 @@ app.get("/", (req, res) => {
 //     .then(() => console.log("db connected"))
 //     .catch((err) => console.log("mongodb error:", err));
 
-const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.f9ow5g8.mongodb.net/${process.env.MONGODB_DB}?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.f9ow5g8.mongodb.net/${process.env.MONGODB_DB}?retryWrites=true&w=majority&appName=Cluster0`;
 
-mongoose.connect(uri)
-  .then(() => console.log("db connected"))
-  .catch((err) => console.log("mongodb error:", err));
+// mongoose.connect(uri)
+//   .then(() => console.log("db connected"))
+//   .catch((err) => console.log("mongodb error:", err));
+dbConnect();
 
 
 app.use('/api', authRoutes);

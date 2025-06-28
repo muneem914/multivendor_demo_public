@@ -188,8 +188,8 @@ export default function Navbar() {
                             Dashboard
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="block sm:hidden cursor-pointer">
-                          <div className="block sm:hidden">
+                        {(!user || user?.role === "customer") && (
+                          <DropdownMenuItem className="block sm:hidden cursor-pointer">
                             {!user ? (
                               <Link
                                 href="/register/seller"
@@ -197,16 +197,16 @@ export default function Navbar() {
                               >
                                 Become a Seller!
                               </Link>
-                            ) : user?.role === "customer" ? (
+                            ) : (
                               <button
                                 onClick={sellerHandler}
                                 className="text-red-500 cursor-pointer"
                               >
                                 Become a Seller!
                               </button>
-                            ) : null}
-                          </div>
-                        </DropdownMenuItem>
+                            )}
+                          </DropdownMenuItem>
+                        )}
                       </>
                     ) : (
                       <>
@@ -243,8 +243,11 @@ export default function Navbar() {
                     )}
 
                     {user && (
-                      <DropdownMenuItem className="block cursor-pointer">
-                        <button onClick={logoutHandler}>Logout</button>
+                      <DropdownMenuItem
+                        onClick={logoutHandler}
+                        className="block cursor-pointer"
+                      >
+                        Logout
                       </DropdownMenuItem>
                     )}
                   </DropdownMenuContent>

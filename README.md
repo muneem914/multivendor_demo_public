@@ -25,6 +25,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 
 ---
 
+
 ## Complete folder structure
 ![Complete Folder Structure](https://raw.githubusercontent.com/muneem914/fourbtech_public/refs/heads/main/frontend/public/folder_structure.png)
 **This is previous project structure. Added some for files.**
@@ -44,7 +45,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 
 ###  Role-Based Dashboards
 - **Customer**: Storing data into database with hashed password, View profile, update info, change password, change notification preferences, create/update/delete/default address, placing orders (will be done later)
-- **Seller**: Add/edit/delete products (will be done later; for now kept that static), manage shop info, view orders UI
+- **Seller**: Add/edit/delete products (will be done later; for now kept that static), manage shop info, view orders UI, managed sorting in orders, products.
 - **Admin**: Full system access, manage users/products/orders, approve sellers, delete customer/seller
 
 ###  Public Interface
@@ -60,7 +61,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 - Upload multiple images with preview UI
 - Add custom specifications using modal interface (done only in features section) - have a try
 - Product update functionality with image re-upload
-- Order management with status (e.g., Pending → Shipped) (need to handle logically with produt/order API)
+- Order management with status (e.g., Pending → Shipped) (need to handle logically with product/order API)
 - For now, only seller interaction with db, rest of them are static
 
 ###  Admin Features
@@ -89,6 +90,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 
 ### Challenges
 - Handling CORS on Vercel during backend deployment
+- Fixing mongodb cold start issues in serverless application
 - Managing persistent auth with Redux + cookies
 - Handling async dynamic fields (like product specs) efficiently
 - Managing multiple form states (shipping, user update, etc.)

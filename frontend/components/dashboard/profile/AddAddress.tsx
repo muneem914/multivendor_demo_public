@@ -92,8 +92,8 @@ const AddAddress = () => {
               Add New Address
             </DialogTitle>
           </div>
-          <form onSubmit={handleSubmit}>
-            <div className="flex-1 overflow-y-auto p-6">
+          <form onSubmit={handleSubmit} className="overflow-y-auto">
+            <div className="flex-1 p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 <div className="grid mb-3">
                   <label htmlFor="label" className="mb-2">
