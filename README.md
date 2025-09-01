@@ -1,6 +1,5 @@
-# Evaluation Task Submission – Junior Web Developer (FourBtech)
 
-## Overview
+# Overview
 
 This project is a multi-vendor eCommerce platform featuring role-based dashboards for Admin, Seller, and Customer. The goal was to implement functional UI and logic based completion on Figma prototype. The system includes authentication, protected routes, role-based redirection, order placement, seller management, and dynamic forms.
 
@@ -27,7 +26,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 
 
 ## Complete folder structure
-![Complete Folder Structure](https://raw.githubusercontent.com/muneem914/fourbtech_public/refs/heads/main/frontend/public/folder_structure.png)
+![Complete Folder Structure](https://raw.githubusercontent.com/muneem914/multivendor_demo_public/refs/heads/main/frontend/public/folder_structure.png)
 **This is previous project structure. Added some for files.**
 
 ## Features Implemented
@@ -73,44 +72,12 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 
 ---
 
-##  The whole process (at a glance)
-
-### Structure
-- Three separate layouts for each role
-- Separate route guards (protected routes) and redirects per user role
-- Modular components per feature (Profile tabs, dialogs, forms)
-- Clear folder separation both in frontend and in backend for routes/controllers/models
-
-### Assumptions
-- Missing design gaps (e.g., full seller profile page) were filled with logical UX decisions
-- Static cart due to no product catalog implementation in design
-- Modals for adding features, Login/registration page prototype
-- Backend schema design
-- Default values assumed for registration (e.g., notification preferences)
-
 ### Challenges
 - Handling CORS on Vercel during backend deployment
 - Fixing mongodb cold start issues in serverless application
 - Managing persistent auth with Redux + cookies
 - Handling async dynamic fields (like product specs) efficiently
 - Managing multiple form states (shipping, user update, etc.)
-
-### Limitations & Next Steps
-- Product catalog and live cart logic to be completed
-- Improve form validation (auth, shipping, registration)
-- Seller registration management from admin.
-- Product review management.
-- Address management (add, update, set default) to be finalized
-- Optimize backend folder structure (e.g., move DB connection to `config`)
-- Replace `<img>` with `next/image` for better SEO/performance
-
-
-### Suggestions for Improvement
-- Provide API documentation or JSON structure expectations with the design
-- Clarify navigation flows in the Figma prototype
-- Include required/optional field info for registration and checkout forms
-- Improve consistency in role management (e.g., role names, approval steps)
-
 
 ## Future Prospects (Planned to do in next)
 - Full product catalog with dynamic cart
@@ -120,19 +87,7 @@ This project is a multi-vendor eCommerce platform featuring role-based dashboard
 - Public view for the seller page, products, profile image, banner of the shop.
 - Notification system, mailing from website and so on.
 
-**Reason for this:** 
-I was planning to practice a multi-vendor e-commerce application using next.js, and typescript. At that time I have been shortlisted for the recruitment process. Now, I will complete these whole application to showcase in my portfolio.
-
 ---
-
-## My Submission
-
-- **Live App Link**: https://fourbtech-frontend.vercel.app/
-- **GitHub Repo**: https://github.com/muneem914/fourbtech_public
-
-###  Separate Live Links
-- Frontend Live: https://fourbtech-frontend.vercel.app/
-- Backend Live: https://fourbtech-backend.vercel.app/
 
 ### Credentials:
 
@@ -149,10 +104,6 @@ password: 123456
 **Role: Admin**\
 email: admin@gmail.com
 password: 123456
-
-(Both frontend and backend code are available in the github link. Also added backend URL in the frontend code.)
-
-**Thank you for this opportunity. Looking forward to your feedback!**
 
 — **Muneem Hussain**\
 	Date: 27th June, 2025
